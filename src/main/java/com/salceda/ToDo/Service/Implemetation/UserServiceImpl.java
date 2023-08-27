@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -23,8 +22,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElse(null);
+    public User getUserById(long id) throws UserNotFoundException {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found."));
     }
 
     @Override
@@ -36,13 +35,11 @@ public class UserServiceImpl implements UserService {
     public User updateUser(long id, User updatedUser) throws UserNotFoundException {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found."));
-
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPassword(updatedUser.getPassword());
+//        existingUser.setEmail(updatedUser.getEmail());
+//        existingUser.setPassword(updatedUser.getPassword());
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
         existingUser.setMiddleName(updatedUser.getMiddleName());
-
         return existingUser;
     }
 
