@@ -1,6 +1,10 @@
 package com.salceda.ToDo.Model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Entity
 public class Task {
@@ -10,6 +14,10 @@ public class Task {
     private String title;
     private String description;
     private boolean completed;
+    @CreationTimestamp
+    private Instant createdOn;
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -52,8 +60,9 @@ public class Task {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public Task setCompleted(boolean completed) {
         this.completed = completed;
+        return this;
     }
 
     public User getUser() {
@@ -62,5 +71,21 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Instant getLastUpdatedOn() {
+        return lastUpdatedOn;
+    }
+
+    public void setLastUpdatedOn(Instant lastUpdatedOn) {
+        this.lastUpdatedOn = lastUpdatedOn;
     }
 }
